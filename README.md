@@ -5,5 +5,5 @@
 - Test drive a well-designed Object Oriented solution
 - Work with file i/o
 
-[Enigma Project Link}(https://backend.turing.io/module1/projects/enigma/)
+[Enigma Project Link](https://backend.turing.io/module1/projects/enigma/)
 EnigmaMachineProject
