@@ -1,14 +1,15 @@
+require_relative 'cipher_engine'
 require_relative 'module/timeable'
 
 class Enigma < CipherEngine
   include Timeable
 
-  attr_reader :keys, :offsets, :date
+  attr_reader :keys, :offsets, :date, :shifts
   def initialize
     @keys = {}
     @offsets = {}
     @date = todays_date_ddmmyy
-    @shifts = {:A_shift => [], :B_shift => [], :C_shift => [], :D_shift => [],}
+    @shifts = {}
     super
   end
 
@@ -16,6 +17,8 @@ class Enigma < CipherEngine
   def encrypt(message, key_code = create_random_num, date = @date)
     assign_keys(key_code)
     date_code(date)
+    create_shifts
+    shift_letters(message)
   end
 
   def assign_keys(key_code)
@@ -32,5 +35,16 @@ class Enigma < CipherEngine
     @offsets[:C] = num_date.pop
     @offsets[:B] = num_date.pop
     @offsets[:A] = num_date.pop
+  end
+
+  def create_shifts
+    @keys.each do |key, value|
+      @shifts[key] = @offsets[key] + value
+    end
+  end
+
+  def shift_letters(message)
+
+    end
   end
 end
