@@ -1,19 +1,23 @@
 class CipherEngine
 
+  attr_reader :char_set
   def initialize
-
+    char_set = []
   end
 
-  def todays_date_ddmmyy
-    now = Time.now.to_a
-    day = now[3].to_s
-    if now[4].to_s.size < 2
-      month = "0" + now[4].to_s
+  def create_char_set(additional_char = nil)
+    if additional_char != nil
+      char_set = ("a".."z").to_a << additional_char
     else
-      month = now[4].to_s
+      char_set = ("a".."z").to_a
     end
-    year_end = now[5].to_s[2..3]
+  end
 
-    (day + month + year_end).to_i
+  def create_random_num(num_digits)
+    random_digits = []
+    num_digits.times do
+      random_digits << Random.rand(10)
+    end
+    random_digits.join
   end
 end
