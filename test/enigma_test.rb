@@ -15,6 +15,15 @@ class EnigmaTest < Minitest::Test
     assert_equal expected, @enigma.keys
     assert_equal expected, @enigma.offsets
     assert_equal todays_date_ddmmyy, @enigma.date
+
+    expected_1 = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l",
+                  "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x",
+                  "y", "z"]
+    expected_2 = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l",
+                  "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x",
+                  "y", "z", " "]
+    assert_equal expected_1, @enigma.create_char_set
+    assert_equal expected_2, @enigma.create_char_set(" ")
   end
 
   def test_assign_keys
@@ -27,9 +36,24 @@ class EnigmaTest < Minitest::Test
     Time.stubs(:now).returns([1, 1, 1, 6, 3, 2017, 1, 1])
     assert_equal "060317", todays_date_ddmmyy
     @enigma.assign_offsets(todays_date_ddmmyy)
-    
+
     expected = {A:0,B:4,C:8,D:9}
     assert_equal expected, @enigma.offsets
+  end
+
+  def test_create_shifts
+    @enigma.assign_keys("02549")
+    @enigma.assign_offsets("060317")
+    @enigma.create_shifts
+    expected = {:A=>2, :B=>11, :C=>17, :D=>22}
+    assert_equal expected, @enigma.shifts
+  end
+
+  def test_shift_letters
+    @enigma.create_char_set
+    @enigma.stubs(:shifts).returns({A:1,B:2,C:3,D:4})
+    @enigma.shift_letters('hello')
+    assert_equal "igopp", @enigma.shift_letters('hello')
   end
 
   def test_encrypt
