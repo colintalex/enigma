@@ -2,14 +2,14 @@ class CipherEngine
 
   attr_reader :char_set
   def initialize
-    char_set = []
+    @char_set = []
   end
 
   def create_char_set(additional_char = nil)
     if additional_char != nil
-      char_set = ("a".."z").to_a << additional_char
+      @char_set = ("a".."z").to_a << additional_char
     else
-      char_set = ("a".."z").to_a
+      @char_set = ("a".."z").to_a
     end
   end
 
