@@ -44,7 +44,19 @@ class Enigma < CipherEngine
   end
 
   def shift_letters(message)
-
+    message.chars.each do |char|
+      require "pry"; binding.pry
+      if message.chars.find_index(char) % 4 == 3
+        p 'shift_d'
+      elsif message.chars.find_index(char) % 4 == 2
+        p 'shift_c'
+      elsif message.chars.find_index(char) % 4 == 1
+        p 'shift_b'
+      elsif message.chars.find_index(char) % 4 == 0
+        p 'shift_a'
+      end
+      # index = @char_set.find_index(char)
+      # @char_set.rotate()
     end
   end
 end
