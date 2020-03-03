@@ -27,6 +27,6 @@
 
 #### Version Control - 3
 - Great commit history, great commenting. However only one pull request, as all the work was done on one seperate dev_branch.
-- As I began to embark on cracking functionality, I realized that my organization for the next step was foggy, and in doing so
-- I did not create a new branch. While I knew it was experimental and did not commit at the time, in hindsight it would have   caused alot of problems for me. As much as I wanted that 4 with my constant commits, I failed to take advantage of new  
+- As I began to embark on cracking functionality, I realized that my organization for the next step was foggy, and in doing so 
+ I did not create a new branch. While I knew it was experimental and did not commit at the time, in hindsight it would have   caused alot of problems for me. As much as I wanted that 4 with my constant commits, I failed to take advantage of new  
  branches.
