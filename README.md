@@ -1,9 +1,9 @@
 Self-Evaluation // Colin A. // Enigma
 
-####Functionality
+#### Functionality
 
-####Object Oriented Programming
+#### Object Oriented Programming
 
-####Ruby Conventions and Mechanics
+#### Ruby Conventions and Mechanics
 
-####Test Driven Development
+#### Test Driven Development
