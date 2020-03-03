@@ -65,22 +65,18 @@ class Enigma < CipherEngine
   def shift_letters(message)
     message.chars.each_with_index do |letter, index|
       if char_set.include?(letter)
-        if index % 4 == 0
-          new_index = char_set.find_index(letter) + shifts[:A]
-          letter.tr!(letter, char_set[new_index % 27])
-        elsif index % 4 == 1
-          new_index = char_set.find_index(letter) + shifts[:B]
-          letter.tr!(letter, char_set[new_index % 27])
-        elsif index % 4 == 2
-          new_index = char_set.find_index(letter) + shifts[:C]
-          letter.tr!(letter, char_set[new_index % 27])
-        elsif index % 4 == 3
-          new_index = char_set.find_index(letter) + shifts[:D]
-          letter.tr!(letter, char_set[new_index % 27])
-        end
+        single_shift(letter, shifts[:A]) if index % 4 == 0
+        single_shift(letter, shifts[:B]) if index % 4 == 1
+        single_shift(letter, shifts[:C]) if index % 4 == 2
+        single_shift(letter, shifts[:D]) if index % 4 == 3
       else
         letter = letter
       end
     end.join
+  end
+
+  def single_shift(letter, shift_phase)
+    new_index = char_set.find_index(letter) + shift_phase
+    letter.tr!(letter, char_set[new_index % 27])
   end
 end
