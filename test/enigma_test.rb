@@ -57,6 +57,13 @@ class EnigmaTest < Minitest::Test
     assert_equal expected, @enigma.shifts
   end
 
+  def test_single_shift
+    @enigma.stubs(:shifts).returns({A:1,B:1,C:1,D:1})
+    assert_equal 'b', @enigma.single_shift('a', @enigma.shifts[:A])
+    assert_equal ' ', @enigma.single_shift('z', @enigma.shifts[:A])
+    assert_equal 'a', @enigma.single_shift(' ', @enigma.shifts[:A])
+  end
+
   def test_shift_letters
     @enigma.create_char_set(" ")
     @enigma.stubs(:shifts).returns({A:1,B:2,C:3,D:4})
@@ -78,6 +85,12 @@ class EnigmaTest < Minitest::Test
       date: "040895"
     }
     assert_equal expected, @enigma.decrypt("keder ohulw", "02715", "040895")
+  end
+
+  def test_it_doesnt_encrypt_special_characters
+    encrypted = @enigma.encrypt("hello?world!", "02715", "040895")
+    decrypted = @enigma.decrypt(encrypted[:encryption], "02715", "040895")
+    assert_equal "hello?world!", decrypted[:decryption]
   end
 
   def test_encrypt_with_current_date
