@@ -22,6 +22,14 @@ class Enigma < CipherEngine
     {encryption: shift_letters(message), key: key_code, date: date}
   end
 
+  def decrypt(message, key_code, date)
+    assign_keys(key_code)
+    assign_offsets(date)
+    create_shifts
+    reverse_shifts
+    {decryption: shift_letters(message), key: key_code, date: date}
+  end
+
   def assign_keys(key_code)
     split_code = key_code.chars.map { |char| char.to_i}
     @keys[:A] = (split_code[0].to_s + split_code[1].to_s).to_i
