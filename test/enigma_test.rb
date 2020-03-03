@@ -49,6 +49,14 @@ class EnigmaTest < Minitest::Test
     assert_equal expected, @enigma.shifts
   end
 
+  def test_create_reverse_shifts
+    @enigma.assign_keys("02549")
+    @enigma.assign_offsets("060317")
+    @enigma.reverse_shifts
+    expected = {:A=>-2, :B=>-29, :C=>-62, :D=>-58}
+    assert_equal expected, @enigma.shifts
+  end
+
   def test_shift_letters
     @enigma.create_char_set(" ")
     @enigma.stubs(:shifts).returns({A:1,B:2,C:3,D:4})
