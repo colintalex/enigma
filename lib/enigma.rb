@@ -11,22 +11,24 @@ class Enigma < CipherEngine
     @date = todays_date_ddmmyy
     @shifts = {}
     super
+    create_char_set(" ")
   end
 
 
-  def encrypt(message, key_code = create_random_num, date = @date)
+  def encrypt(message, key_code = create_random_num(5), date = @date)
     assign_keys(key_code)
-    date_code(date)
+    assign_offsets(date)
     create_shifts
-    shift_letters(message)
+    {encryption: shift_letters(message), key: key_code, date: date}
   end
 
   def assign_keys(key_code)
     split_code = key_code.chars.map { |char| char.to_i}
-    @keys[:A] = split_code[0] + split_code[1]
-    @keys[:B] = split_code[1] + split_code[2]
-    @keys[:C] = split_code[2] + split_code[3]
-    @keys[:D] = split_code[3] + split_code[4]
+    @keys[:A] = (split_code[0].to_s + split_code[1].to_s).to_i
+    @keys[:B] = (split_code[1].to_s + split_code[2].to_s).to_i
+    @keys[:C] = (split_code[2].to_s + split_code[3].to_s).to_i
+    @keys[:D] = (split_code[3].to_s + split_code[4].to_s).to_i
+    @keys
   end
 
   def assign_offsets(date)
@@ -35,6 +37,7 @@ class Enigma < CipherEngine
     @offsets[:C] = num_date.pop
     @offsets[:B] = num_date.pop
     @offsets[:A] = num_date.pop
+    @offsets
   end
 
   def create_shifts
@@ -44,19 +47,25 @@ class Enigma < CipherEngine
   end
 
   def shift_letters(message)
-    message.chars.each do |char|
-      require "pry"; binding.pry
-      if message.chars.find_index(char) % 4 == 3
-        p 'shift_d'
-      elsif message.chars.find_index(char) % 4 == 2
-        p 'shift_c'
-      elsif message.chars.find_index(char) % 4 == 1
-        p 'shift_b'
-      elsif message.chars.find_index(char) % 4 == 0
-        p 'shift_a'
+    index = ['a', 'b', 'c', 'd']
+    z = message.chars.map do |letter|
+      if index.first == 'a'
+        index.rotate!
+        new_index = char_set.find_index(letter) + shifts[:A]
+        letter.tr!(letter, char_set[new_index % 27])
+      elsif index.first == 'b'
+        index.rotate!
+        new_index = char_set.find_index(letter) + shifts[:B]
+        letter.tr!(letter, char_set[new_index % 27])
+      elsif index.first == 'c'
+        index.rotate!
+        new_index = char_set.find_index(letter) + shifts[:C]
+        letter.tr!(letter, char_set[new_index % 27])
+      elsif index.first == 'd'
+        index.rotate!
+        new_index = char_set.find_index(letter) + shifts[:D]
+        letter.tr!(letter, char_set[new_index % 27])
       end
-      # index = @char_set.find_index(char)
-      # @char_set.rotate()
-    end
+    end.join
   end
 end
