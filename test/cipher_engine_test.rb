@@ -1,8 +1,6 @@
 require_relative 'test_helper'
 
-
 class CipherEngineTest < Minitest::Test
-
   def setup
     @cipher_engine = CipherEngine.new
   end
