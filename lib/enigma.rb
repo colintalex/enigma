@@ -15,19 +15,19 @@ class Enigma < CipherEngine
   end
 
 
-  def encrypt(message, key_code = create_random_num(5), date = @date)
+  def encrypt(message, key_code = "0" + create_random_num(4), date = @date)
     assign_keys(key_code)
     assign_offsets(date)
     create_shifts
-    {encryption: shift_letters(message), key: key_code, date: date}
+    {encryption: shift_letters(message.strip.downcase), key: key_code, date: date}
   end
 
-  def decrypt(message, key_code, date)
+  def decrypt(cipher_text, key_code, date = @date)
     assign_keys(key_code)
     assign_offsets(date)
     create_shifts
     reverse_shifts
-    {decryption: shift_letters(message), key: key_code, date: date}
+    {decryption: shift_letters(cipher_text), key: key_code, date: date}
   end
 
   def assign_keys(key_code)
@@ -65,22 +65,26 @@ class Enigma < CipherEngine
   def shift_letters(message)
     index = ['a', 'b', 'c', 'd']
     message.chars.map do |letter|
-      if index.first == 'a'
-        index.rotate!
-        new_index = char_set.find_index(letter) + shifts[:A]
-        letter.tr!(letter, char_set[new_index % 27])
-      elsif index.first == 'b'
-        index.rotate!
-        new_index = char_set.find_index(letter) + shifts[:B]
-        letter.tr!(letter, char_set[new_index % 27])
-      elsif index.first == 'c'
-        index.rotate!
-        new_index = char_set.find_index(letter) + shifts[:C]
-        letter.tr!(letter, char_set[new_index % 27])
-      elsif index.first == 'd'
-        index.rotate!
-        new_index = char_set.find_index(letter) + shifts[:D]
-        letter.tr!(letter, char_set[new_index % 27])
+      if char_set.include?(letter)
+        if index.first == 'a'
+          index.rotate!
+          new_index = char_set.find_index(letter) + shifts[:A]
+          letter.tr!(letter, char_set[new_index % 27])
+        elsif index.first == 'b'
+          index.rotate!
+          new_index = char_set.find_index(letter) + shifts[:B]
+          letter.tr!(letter, char_set[new_index % 27])
+        elsif index.first == 'c'
+          index.rotate!
+          new_index = char_set.find_index(letter) + shifts[:C]
+          letter.tr!(letter, char_set[new_index % 27])
+        elsif index.first == 'd'
+          index.rotate!
+          new_index = char_set.find_index(letter) + shifts[:D]
+          letter.tr!(letter, char_set[new_index % 27])
+        end
+      else
+        letter = letter
       end
     end.join
   end
