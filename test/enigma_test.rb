@@ -15,15 +15,19 @@ class EnigmaTest < Minitest::Test
     assert_equal expected, @enigma.keys
     assert_equal expected, @enigma.offsets
     assert_equal todays_date_ddmmyy, @enigma.date
+  end
 
+  def test_it_inherits_from_super
     expected_1 = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l",
                   "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x",
                   "y", "z"]
     expected_2 = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l",
                   "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x",
                   "y", "z", " "]
-    assert_equal expected_1, @enigma.create_char_set
-    assert_equal expected_2, @enigma.create_char_set(" ")
+    @enigma.create_char_set
+    assert_equal expected_1, @enigma.char_set
+    @enigma.create_char_set(" ")
+    assert_equal expected_2, @enigma.char_set
   end
 
   def test_assign_keys
@@ -57,11 +61,11 @@ class EnigmaTest < Minitest::Test
     assert_equal expected, @enigma.shifts
   end
 
-  def test_single_shift
+  def test_shift_by_phase
     @enigma.stubs(:shifts).returns({A:1,B:1,C:1,D:1})
-    assert_equal 'b', @enigma.single_shift('a', @enigma.shifts[:A])
-    assert_equal ' ', @enigma.single_shift('z', @enigma.shifts[:A])
-    assert_equal 'a', @enigma.single_shift(' ', @enigma.shifts[:A])
+    assert_equal 'b', @enigma.char_shift_by_phase('a', @enigma.shifts[:A])
+    assert_equal ' ', @enigma.char_shift_by_phase('z', @enigma.shifts[:A])
+    assert_equal 'a', @enigma.char_shift_by_phase(' ', @enigma.shifts[:A])
   end
 
   def test_shift_letters
@@ -101,7 +105,9 @@ class EnigmaTest < Minitest::Test
 
   def test_encrypt_with_message_only
     encrypted = @enigma.encrypt("hello world")
-    decrypted = @enigma.decrypt(encrypted[:encryption], encrypted[:key], encrypted[:date])
+    decrypted = @enigma.decrypt(encrypted[:encryption],
+                                encrypted[:key],
+                                encrypted[:date])
     assert_equal "hello world", decrypted[:decryption]
   end
 end
