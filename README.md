@@ -2,10 +2,10 @@
 
 #### Functionality - 3
 - The functionality in the program is all there, and I refactored them so that nearly each method is responsible for a
-- specific function. No lines over 80+ characters, and no methods over 10+ lines long. I kept readability in mind while 
-- building, and combed back through the program to ensure the readability was there. I wanted to be sure I had a solid 3 soI
-- could shoot for the 4 and complete the cracking, however I had to scrap that. Indentation, spacing, etc, are all there 
-- in my eyes. I speak from repetitious review!
+ specific function. No lines over 80+ characters, and no methods over 10+ lines long. I kept readability in mind while 
+ building, and combed back through the program to ensure the readability was there. I wanted to be sure I had a solid 3 soI
+ could shoot for the 4 and complete the cracking, however I had to scrap that. Indentation, spacing, etc, are all there 
+ in my eyes. I speak from repetitious review!
 
 #### Object Oriented Programming - 3.5
 - Uses both inheritance and module in a manner that makes sense for the application.
