@@ -44,11 +44,19 @@ class Enigma < CipherEngine
     @keys.each do |key, value|
       @shifts[key] = @offsets[key] + value
     end
+    @shifts
+  end
+
+  def reverse_shifts
+    create_shifts.each do |phase, shift|
+      @shifts[phase] = shift - (shift * 2)
+    end
+    @shifts
   end
 
   def shift_letters(message)
     index = ['a', 'b', 'c', 'd']
-    z = message.chars.map do |letter|
+    message.chars.map do |letter|
       if index.first == 'a'
         index.rotate!
         new_index = char_set.find_index(letter) + shifts[:A]
