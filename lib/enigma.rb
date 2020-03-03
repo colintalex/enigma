@@ -19,7 +19,9 @@ class Enigma < CipherEngine
     assign_keys(key_code)
     assign_offsets(date)
     create_shifts
-    {encryption: shift_letters(message.strip.downcase), key: key_code, date: date}
+    { encryption: shift_letters(message.strip.downcase),
+      key: key_code,
+      date: date }
   end
 
   def decrypt(cipher_text, key_code, date = @date)
@@ -64,19 +66,24 @@ class Enigma < CipherEngine
 
   def shift_letters(message)
     message.chars.each_with_index do |letter, index|
-      if char_set.include?(letter)
-        single_shift(letter, shifts[:A]) if index % 4 == 0
-        single_shift(letter, shifts[:B]) if index % 4 == 1
-        single_shift(letter, shifts[:C]) if index % 4 == 2
-        single_shift(letter, shifts[:D]) if index % 4 == 3
+      if @char_set.include?(letter)
+        character_shift(letter, index)
       else
         letter = letter
       end
     end.join
   end
 
-  def single_shift(letter, shift_phase)
+  def character_shift(letter, index)
+    char_shift_by_phase(letter, shifts[:A]) if index % 4 == 0
+    char_shift_by_phase(letter, shifts[:B]) if index % 4 == 1
+    char_shift_by_phase(letter, shifts[:C]) if index % 4 == 2
+    char_shift_by_phase(letter, shifts[:D]) if index % 4 == 3
+  end
+
+  def char_shift_by_phase(letter, shift_phase)
     new_index = char_set.find_index(letter) + shift_phase
     letter.tr!(letter, char_set[new_index % 27])
   end
+
 end
