@@ -27,8 +27,8 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_assign_keys
-    expected = {A:3,B:11,C:13,D:9}
-    @enigma.assign_keys("03854")
+    expected = {A:3,B:31,C:16,D:64}
+    @enigma.assign_keys("03164")
     assert_equal expected, @enigma.keys
   end
 
@@ -45,22 +45,22 @@ class EnigmaTest < Minitest::Test
     @enigma.assign_keys("02549")
     @enigma.assign_offsets("060317")
     @enigma.create_shifts
-    expected = {:A=>2, :B=>11, :C=>17, :D=>22}
+    expected = {:A=>2, :B=>29, :C=>62, :D=>58}
     assert_equal expected, @enigma.shifts
   end
 
   def test_shift_letters
-    @enigma.create_char_set
+    @enigma.create_char_set(" ")
     @enigma.stubs(:shifts).returns({A:1,B:2,C:3,D:4})
-    @enigma.shift_letters('hello')
-    assert_equal "igopp", @enigma.shift_letters('hello')
+    assert_equal "igopp", @enigma.shift_letters("hello")
+    assert_equal "igoppbzssng", @enigma.shift_letters("hello world")
   end
 
   def test_encrypt
-    skip
     expected = { encryption: "keder ohulw",
                 key: "02715",
                 date: "040895"}
+    p @enigma.encrypt("hello world", "02715", "040895")
     assert_equal expected, @enigma.encrypt("hello world", "02715", "040895")
   end
 end
