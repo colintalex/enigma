@@ -24,6 +24,7 @@
  the actual functionality.  I did my best creating assertions for robust-ness, and I'm confident that I thoroughly tested.
 - I don't give TDD a full 4 because during refactoring of my encrypt method, some of my dream-driving on 1-2 methods was
  completed before adding a new test for the refactored functionality. Just not perfect, so therefore, 3.5 
+- 100% on SimpleCov coverage. Really happy with that, however I had issues with it on Futbol so I'm confidently skeptical. :)
 
 #### Version Control - 3
 - Great commit history, great commenting. However only one pull request, as all the work was done on one seperate dev_branch.
